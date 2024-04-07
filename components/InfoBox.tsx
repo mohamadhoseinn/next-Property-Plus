@@ -1,10 +1,23 @@
+interface buttonInfo {
+  text: string;
+  link: string;
+  backgroundColor: string;
+}
+interface InfoBox {
+  heading: string;
+  backgroundColor: string;
+  textColor?: string;
+  buttonInfo: buttonInfo;
+  children: string;
+}
+
 function InfoBox({
   heading,
-  backgroundColor = "bg-gray-100",
-  textColor = "text-gray-800",
+  backgroundColor,
+  textColor,
   buttonInfo,
   children,
-}) {
+}: InfoBox) {
   return (
     <div className={`${backgroundColor} p-6 rounded-lg shadow-md`}>
       <h2 className={`${textColor}text-2xl font-bold`}>{heading}</h2>
@@ -19,5 +32,8 @@ function InfoBox({
     </div>
   );
 }
-
+InfoBox.defaultProps = {
+  backgroundColor: "bg-gray-100",
+  textColor: "text-gray-800",
+};
 export default InfoBox;
