@@ -1,8 +1,25 @@
 import Link from "next/link";
-import properties from "@/properties.json";
 import PropertyCard from "./PropertyCard";
 
-function HomeProperties() {
+const fetchProperties = async () => {
+  try {
+    const response = await fetch(
+      ` ${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+async function HomeProperties() {
+  const properties = await fetchProperties();
+  console.log({ properties });
+
   const recentProperties = properties
     .sort(() => Math.random() - Math.random())
     .slice(0, 3);
@@ -17,7 +34,7 @@ function HomeProperties() {
             {!recentProperties ? (
               <p>No Properties Found</p>
             ) : (
-              recentProperties.map((property) => {
+              recentProperties.map((property: { _id: string }) => {
                 return <PropertyCard key={property._id} {...property} />;
               })
             )}
