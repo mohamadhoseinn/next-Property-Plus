@@ -1,19 +1,5 @@
 import PropertyAddPage from "@/components/PropertyCard";
-
-const fetchProperties = async () => {
-  try {
-    const response = await fetch(
-      ` ${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch data");
-    }
-
-    return response.json();
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { fetchProperties } from "@/utils/requests";
 
 async function Properties() {
   const properties = await fetchProperties();
@@ -22,15 +8,14 @@ async function Properties() {
     return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();
   });
 
-  properties.sort;
   return (
     <section className="px-4 py-6">
       <div className="container-xl lg:container m-auto px-4 py-6">
-        {!properties.length ? (
+        {!properties?.length ? (
           <p>No properties found</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {properties?.map((property: { _id: string }) => {
+            {properties.map((property: { _id: string }) => {
               return <PropertyAddPage key={property._id} {...property} />;
             })}
           </div>
