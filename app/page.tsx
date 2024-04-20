@@ -1,6 +1,5 @@
 import Hero from "@/components/Hero";
 import InfoBoxes from "@/components/InfoBoxes";
-import Footer from "@/components/Footer";
 import HomeProperties from "@/components/HomeProperties";
 import connectDB from "@/config/database";
 
@@ -11,7 +10,6 @@ const HomePage = async () => {
       <Hero />
       <InfoBoxes />
       <HomeProperties />
-      <Footer />
     </>
   );
 };

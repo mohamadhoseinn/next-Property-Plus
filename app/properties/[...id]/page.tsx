@@ -1,31 +1,33 @@
 "use client";
-import {
-  useRouter,
-  usePathname,
-  useSearchParams,
-  useParams,
-} from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import { useParams } from "next/navigation";
+import { fetchProperty } from "@/utils/requests";
+
 function PropertyPage() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const name = searchParams.get("name");
-  const params = useParams();
+  const id = useParams()?.id?.[0];
 
-  console.log({ cc: searchParams });
+  const [property, setProperty] = useState<null | Object>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  return (
-    <button onClick={() => router.push("/properties")}>
-      pathName: {pathname}
-      {/* pathName: /properties/09 */}
-      <br />
-      searchParams: {name}
-      {/* searchParams: amir */}
-      <br />
-      params: {params?.id}
-      {/*      params: {params?.id}*/}
-    </button>
-  );
+  const fetchPropertyData = useCallback(async () => {
+    if (!id) return;
+    try {
+      const propertyData = await fetchProperty(id);
+      setProperty(propertyData);
+    } catch (error) {
+      console.error("Error fetcing property: ", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (property === null) {
+      fetchPropertyData();
+    }
+  }, [fetchPropertyData, property]);
+
+  return <div>Hello Property</div>;
 }
 
 export default PropertyPage;
