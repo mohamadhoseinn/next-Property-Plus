@@ -6,6 +6,7 @@ import PropertyHeaderImage from "@/components/PropertyHeaderImage";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 import PropertyDetails from "@/components/PropertyDetailes";
+import Spinner from "@/components/Spinner";
 
 type Location = {
   city: string;
@@ -65,6 +66,7 @@ function PropertyPage() {
 
   return (
     <>
+      {isLoading && <Spinner loading={isLoading} />}
       {!isLoading && property && (
         <>
           <PropertyHeaderImage image={property?.images[0]} />
